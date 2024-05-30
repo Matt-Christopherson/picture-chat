@@ -22,21 +22,21 @@ const Canvas = () => {
 		ctx.strokeStyle = color;
 		ctx.lineWidth = lineWidth;
 		setContext(ctx);
-
-		// Save initial canvas state
-		saveState(canvas);
+		console.log('useEffect: ' + historyStep); // Console log console log console log
 	}, [color, lineWidth]);
 
 	const startDrawing = (e) => {
 		context.beginPath();
 		context.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		setIsDrawing(true);
+		console.log('startDrawing: ' + historyStep); // Console log console log console log
 	};
 
 	const draw = (e) => {
 		if (!isDrawing) return;
 		context.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 		context.stroke();
+		console.log('draw: ' + historyStep); // Console log console log console log
 	};
 
 	const stopDrawing = () => {
@@ -44,6 +44,7 @@ const Canvas = () => {
 		setIsDrawing(false);
 		// Save the state after finishing drawing
 		saveState(canvasRef.current);
+		console.log('stopDrawing: ' + historyStep); // Console log console log console log
 	};
 
 	const saveDrawing = () => {
@@ -53,8 +54,10 @@ const Canvas = () => {
 		link.download = 'drawing.jpg';
 		link.href = dataURL;
 		link.click();
+		console.log('saveDrawing: ' + historyStep); // Console log console log console log
 	};
 
+	// src/Canvas.jsx
 	const saveState = (canvas) => {
 		const canvasState = canvas.toDataURL();
 		setHistory((prevHistory) => {
@@ -64,12 +67,12 @@ const Canvas = () => {
 			];
 			return newHistory;
 		});
-		setHistoryStep((prevStep) => prevStep + 1);
+		setHistoryStep((prevStep) => prevStep + 1); // Increment only after saving a new state
 	};
 
 	const undo = () => {
 		if (historyStep > 0) {
-			console.log(historyStep);
+			console.log(historyStep); // Console log console log console log
 			const newStep = historyStep - 1;
 			setHistoryStep(newStep);
 			const canvas = canvasRef.current;
@@ -81,6 +84,7 @@ const Canvas = () => {
 				ctx.drawImage(prevImage, 0, 0);
 			};
 		}
+		console.log('undo: ' + historyStep); // Console log console log console log
 	};
 
 	const redo = () => {
@@ -96,6 +100,7 @@ const Canvas = () => {
 				ctx.drawImage(nextImage, 0, 0);
 			};
 		}
+		console.log('redo: ' + historyStep); // Console log console log console log
 	};
 
 	return (
