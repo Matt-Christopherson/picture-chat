@@ -1,4 +1,3 @@
-// src/Canvas.jsx
 import React, { useRef, useState, useEffect } from 'react';
 
 const Canvas = () => {
@@ -7,14 +6,22 @@ const Canvas = () => {
 	const [context, setContext] = useState(null);
 	const [color, setColor] = useState('#000000');
 	const [lineWidth, setLineWidth] = useState(5);
+	const [history, setHistory] = useState([]);
+	const [historyStep, setHistoryStep] = useState(-1);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext('2d');
+
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 		ctx.lineCap = 'round';
 		ctx.strokeStyle = color;
 		ctx.lineWidth = lineWidth;
 		setContext(ctx);
+
+		saveState(canvas);
 	}, [color, lineWidth]);
 
 	const startDrawing = (e) => {
@@ -30,8 +37,62 @@ const Canvas = () => {
 	};
 
 	const stopDrawing = () => {
-		context.closePath();
-		setIsDrawing(false);
+		if (isDrawing) {
+			context.closePath();
+			setIsDrawing(false);
+			saveState(canvasRef.current);
+		}
+	};
+
+	const saveDrawing = () => {
+		const canvas = canvasRef.current;
+		const dataURL = canvas.toDataURL('image/jpeg');
+		const link = document.createElement('a');
+		link.download = 'drawing.jpg';
+		link.href = dataURL;
+		link.click();
+	};
+
+	const saveState = (canvas) => {
+		const canvasState = canvas.toDataURL();
+		setHistory((prevHistory) => {
+			const newHistory = [
+				...prevHistory.slice(0, historyStep + 1),
+				canvasState,
+			];
+			return newHistory;
+		});
+		setHistoryStep((prevStep) => prevStep + 1);
+	};
+
+	const undo = () => {
+		if (historyStep > 0) {
+			const newStep = historyStep - 1;
+			setHistoryStep(newStep);
+			const canvas = canvasRef.current;
+			const ctx = canvas.getContext('2d');
+			const prevImage = new Image();
+			prevImage.src = history[newStep];
+			prevImage.onload = () => {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(prevImage, 0, 0);
+			};
+		}
+	};
+
+	const redo = () => {
+		if (historyStep < history.length - 1) {
+			const newStep = historyStep + 1;
+			setHistoryStep(newStep);
+			const canvas = canvasRef.current;
+			const ctx = canvas.getContext('2d');
+			const nextImage = new Image();
+			nextImage.src = history[newStep];
+			nextImage.onload = () => {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(nextImage, 0, 0);
+			};
+		}
 	};
 
 	return (
@@ -64,6 +125,13 @@ const Canvas = () => {
 					onChange={(e) => setLineWidth(e.target.value)}
 				/>
 			</div>
+			<button onClick={undo} disabled={historyStep <= 0}>
+				Undo
+			</button>
+			<button onClick={redo} disabled={historyStep >= history.length - 1}>
+				Redo
+			</button>
+			<button onClick={saveDrawing}>Save as JPEG</button>
 		</div>
 	);
 };
