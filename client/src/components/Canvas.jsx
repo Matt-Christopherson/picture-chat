@@ -8,6 +8,7 @@ const Canvas = () => {
   const [lineWidth, setLineWidth] = useState(5); // State to store selected line width
   const [history, setHistory] = useState([]); // State to store history of canvas states
   const [redoStack, setRedoStack] = useState([]); // State to store redo stack
+  const [isEraserActive, setIsEraserActive] = useState(false); // State to track eraser mode
 
   useEffect(() => {
     // Set up the canvas context and default background
@@ -28,10 +29,10 @@ const Canvas = () => {
   useEffect(() => {
     if (context) {
       // Update drawing parameters when color or lineWidth changes
-      context.strokeStyle = color;
-      context.lineWidth = lineWidth;
+      context.strokeStyle = isEraserActive ? '#FFFFFF' : color;
+      context.lineWidth = isEraserActive ? (lineWidth * 5) : lineWidth;
     }
-  }, [color, lineWidth, context]); // Run when color, lineWidth, or context changes
+  }, [color, lineWidth, context, isEraserActive]); // Run when color, lineWidth, context, or isEraserActive changes
 
   const startDrawing = (e) => {
     // Begin a new drawing path when the user starts drawing
@@ -114,6 +115,10 @@ const Canvas = () => {
     link.click();
   };
 
+  const toggleEraser = () => {
+    setIsEraserActive(!isEraserActive);
+  };
+
   return (
     <div>
       <canvas
@@ -147,6 +152,9 @@ const Canvas = () => {
       <button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
       <button onClick={undo}>Undo</button> {/* Undo button */}
       <button onClick={redo}>Redo</button> {/* Redo button */}
+      <button onClick={toggleEraser}>
+        {isEraserActive ? 'Switch to Pen' : 'Switch to Eraser'}
+      </button> {/* Eraser button */}
     </div>
   );
 };
