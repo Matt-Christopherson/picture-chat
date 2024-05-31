@@ -15,6 +15,12 @@ const typeDefs = `
     reactions: [Reactions]!
   }
 
+  type Reactions {
+    reactionBody: String!
+    username: String!
+    createdAt: String!
+  }
+
   type Auth {
     token: ID!
     user: User
