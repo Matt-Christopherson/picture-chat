@@ -1,25 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-const postSchema = new Schema ({
-    postImage: {
-        type: String,
-        requried: 'You must draw something!',
-    },
-
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: (createdAtVal) => dateFormat(createdAtVal),
-      },
-
-      user: {
-        type: String,
-        required: true,
-      },
-
-      reactions: [reactionSchema],
-})
-
 const reactionSchema = new Schema({
   reactionId: {
     type: Schema.Types.ObjectId,
@@ -40,6 +20,27 @@ const reactionSchema = new Schema({
     get: (createdAtVal) => dateFormat(createdAtVal),
   },
 });
+
+const postSchema = new Schema ({
+    postImage: {
+        type: String,
+        requried: 'You must draw something!',
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (createdAtVal) => dateFormat(createdAtVal),
+      },
+
+      user: {
+        type: String,
+        required: true,
+      },
+
+      reactions: [reactionSchema],
+})
+
 
 const Post = model('Post', postSchema);
 
