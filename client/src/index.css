@@ -22,20 +22,6 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  background-color: white;
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -66,4 +52,81 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+
+
+
+
+/* Reset some default browser styles */
+body, h1, ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0; /* Remove default body margin */
+}
+
+header {
+  color: #fff;
+  padding: 20px 30px 20px;
+  width: 100%; /* Set header width to 100% */
+}
+
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 2.5em;
+  flex: 1;
+  text-align: center;
+  padding-left: 20px;
+}
+
+nav {
+  position: absolute;
+  right: 30px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+}
+
+nav ul {
+  display: flex;
+  gap: 15px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.scroll-container {
+  border: 3px solid #333;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-height: 60vh; /* Adjust based on your design */
+  overflow-y: auto;
+  background-color: #ddd;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
