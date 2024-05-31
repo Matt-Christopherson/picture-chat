@@ -9,7 +9,7 @@ const typeDefs = `
 
   type Post {
     _id: ID
-    img: String
+    postImg: String
     createdAt: String
     user: String
     reactions: [Reactions]!
