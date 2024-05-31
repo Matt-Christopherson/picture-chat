@@ -19,11 +19,6 @@ function App() {
             		</nav>
 				</header>
 				<Canvas />
-				<div class="scroll-container">
-					{
-					//users posts will go here
-					}
-				</div>
 			</div>
 		</>
 	);

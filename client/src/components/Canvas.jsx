@@ -137,6 +137,11 @@ const Canvas = () => {
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		// Fill the canvas with white color
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 		setHistory([]);
 		setRedoStack([]);
 		setClearConfirmation(false);
@@ -150,6 +155,15 @@ const Canvas = () => {
 		link.download = 'drawing.jpg';
 		link.href = dataURL;
 		link.click();
+	};
+
+	const postDrawing = () => {
+		const canvas = canvasRef.current;
+		const dataURL = canvas.toDataURL('image/jpeg');
+		const img = document.createElement('img');
+		img.src = dataURL;
+		img.alt = 'Posted drawing';
+		document.getElementById('posted-images').appendChild(img);
 	};
 
 	const switchToPen = () => {
@@ -305,20 +319,20 @@ const Canvas = () => {
 				/>
 			</div>
 			<div>
-				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
-				<button onClick={undo}>Undo</button> {/* Undo button */}
-				<button onClick={redo}>Redo</button> {/* Redo button */}
-				<button onClick={switchToPen}>Pen</button> {/* Pen button */}
-				<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
-				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '}
-				{/* Paint Bucket button */}
 				<button
 					onClick={clearDrawing}
 					style={{ backgroundColor: clearConfirmation ? 'red' : 'initial' }}
 				>
 					{clearConfirmation ? 'Confirm?' : 'Clear Canvas'}
-				</button>
-				{/* Clear Canvas button */}
+				</button> {/* Clear Canvas button */}
+				<button onClick={undo}>Undo</button> {/* Undo button */}
+				<button onClick={redo}>Redo</button> {/* Redo button */}
+				<button onClick={switchToPen}>Pen</button> {/* Pen button */}
+				<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
+				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '} {/* Paint Bucket button */}
+				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
+				<button onClick={postDrawing}>Post</button> {/* Post button */}
+				<div id="posted-images" class="scroll-container" style={{ marginTop: '20px' }}></div>
 			</div>
 		</div>
 	);
