@@ -12,6 +12,7 @@ const Canvas = () => {
 	const [isPaintBucketActive, setIsPaintBucketActive] = useState(false); // State to track paint bucket mode
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Track mouse position
 	const [clearConfirmation, setClearConfirmation] = useState(false); // State to track clear canvas confirmation
+	const [isPosted, setIsPosted] = useState(false); // State to track if an image is posted
 
 	useEffect(() => {
 		// Set up the canvas context and default background
@@ -101,7 +102,8 @@ const Canvas = () => {
 				ctx.drawImage(img, 0, 0);
 			};
 		} else {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = '#FFFFFF';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		}
 
 		setRedoStack([...redoStack, lastState]);
@@ -136,9 +138,6 @@ const Canvas = () => {
 		// Clear the canvas and reset confirmation state
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext('2d');
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-		// Fill the canvas with white color
 		ctx.fillStyle = '#FFFFFF';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -163,7 +162,12 @@ const Canvas = () => {
 		const img = document.createElement('img');
 		img.src = dataURL;
 		img.alt = 'Posted drawing';
+	
+		// Append the image to the container
 		document.getElementById('posted-images').appendChild(img);
+	
+		// Update isPosted state to true
+		setIsPosted(true);
 	};
 
 	const switchToPen = () => {
@@ -332,7 +336,9 @@ const Canvas = () => {
 				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '} {/* Paint Bucket button */}
 				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
 				<button onClick={postDrawing}>Post</button> {/* Post button */}
-				<div id="posted-images" class="scroll-container" style={{ marginTop: '20px' }}></div>
+				<div id="posted-images" className="scroll-container" style={{ marginTop: '20px' }}>
+          			{!isPosted && <p>No posts yet. New posts will appear here.</p>}
+        		</div>
 			</div>
 		</div>
 	);
