@@ -35,6 +35,9 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     uploadImage(file: Upload!): String // Mutation for uploading an image
+    deletePost(postId: ID!): Post
+    addReaction(postId: ID!, reactionBody: String!, username: String!): Post
+    deleteReaction(postId: ID!, reactionId: ID!): Post
   }
 `;
 
