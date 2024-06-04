@@ -3,7 +3,7 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 const { GraphQLUpload } = require('apollo-server-express');
 
 const resolvers = {
-  Upload: GraphQLUpload, // Define the Upload scalar
+  //Upload: GraphQLUpload, // Define the Upload scalar
 
   Query: {
     users: async () => {
@@ -46,24 +46,24 @@ const resolvers = {
 
       return { token, user }; // Log in a user
     },
-    uploadImage: async (parent, { file }, { gfs }) => {
-      const { createReadStream, filename, mimetype, encoding } = await file;
-      const stream = createReadStream();
+    // uploadImage: async (parent, { file }, { gfs }) => {
+    //   const { createReadStream, filename, mimetype, encoding } = await file;
+    //   const stream = createReadStream();
 
-      // Upload to GridFS
-      const { id } = await new Promise((resolve, reject) => {
-        const writeStream = gfs.createWriteStream({
-          filename,
-          contentType: mimetype, // MIME type of the file
-        });
+    //   // Upload to GridFS
+    //   const { id } = await new Promise((resolve, reject) => {
+    //     const writeStream = gfs.createWriteStream({
+    //       filename,
+    //       contentType: mimetype, // MIME type of the file
+    //     });
 
-        stream.pipe(writeStream)
-          .on('finish', () => resolve({ id: writeStream.id })) // Resolve when the upload finishes
-          .on('error', reject); // Reject on error
-      });
+    //     stream.pipe(writeStream)
+    //       .on('finish', () => resolve({ id: writeStream.id })) // Resolve when the upload finishes
+    //       .on('error', reject); // Reject on error
+    //   });
 
-      return `File uploaded successfully: ${id}`; // Return the ID of the uploaded file
-    },
+    //   return `File uploaded successfully: ${id}`; // Return the ID of the uploaded file
+    // },
   },
 };
 
