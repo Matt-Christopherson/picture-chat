@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 
+//   scalar Upload
 const typeDefs = gql`
-  scalar Upload // Scalar type for file uploads
 
   type User {
     _id: ID
@@ -13,10 +13,16 @@ const typeDefs = gql`
 
   type Post {
     _id: ID
-    img: String // URL or ID of the uploaded image
+    img: String
     createdAt: String
     user: String
     reactions: [Reactions]!
+  }
+
+  type Reactions {
+    reactionBody: String
+    username: String
+    createdAt: String
   }
 
   type Auth {
@@ -34,17 +40,11 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    uploadImage(file: Upload!): String // Mutation for uploading an image
-    deletePost(postId: ID!): Post
-    addReaction(postId: ID!, reactionBody: String!, username: String!): Post
-    deleteReaction(postId: ID!, reactionId: ID!): Post
+
   }
 `;
 
 module.exports = typeDefs;
 
 
- // addThought(thoughtText: String!): Thought
-    // addComment(thoughtId: ID!, commentText: String!): Thought
-    // removeThought(thoughtId: ID!): Thought
-    // removeComment(thoughtId: ID!, commentId: ID!): Thought
+// uploadImage(file: Upload!): String
