@@ -12,6 +12,7 @@ const Canvas = () => {
 	const [isPaintBucketActive, setIsPaintBucketActive] = useState(false); // State to track paint bucket mode
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Track mouse position
 	const [clearConfirmation, setClearConfirmation] = useState(false); // State to track clear canvas confirmation
+	const [isPosted, setIsPosted] = useState(false); // State to track if an image is posted
 
 	useEffect(() => {
 		// Set up the canvas context and default background
@@ -101,7 +102,8 @@ const Canvas = () => {
 				ctx.drawImage(img, 0, 0);
 			};
 		} else {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = '#FFFFFF';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		}
 
 		setRedoStack([...redoStack, lastState]);
@@ -136,7 +138,9 @@ const Canvas = () => {
 		// Clear the canvas and reset confirmation state
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext('2d');
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 		setHistory([]);
 		setRedoStack([]);
 		setClearConfirmation(false);
@@ -150,6 +154,20 @@ const Canvas = () => {
 		link.download = 'drawing.jpg';
 		link.href = dataURL;
 		link.click();
+	};
+
+	const postDrawing = () => {
+		const canvas = canvasRef.current;
+		const dataURL = canvas.toDataURL('image/jpeg');
+		const img = document.createElement('img');
+		img.src = dataURL;
+		img.alt = 'Posted drawing';
+	
+		// Append the image to the container
+		document.getElementById('posted-images').appendChild(img);
+	
+		// Update isPosted state to true
+		setIsPosted(true);
 	};
 
 	const switchToPen = () => {
@@ -305,20 +323,22 @@ const Canvas = () => {
 				/>
 			</div>
 			<div>
-				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
-				<button onClick={undo}>Undo</button> {/* Undo button */}
-				<button onClick={redo}>Redo</button> {/* Redo button */}
-				<button onClick={switchToPen}>Pen</button> {/* Pen button */}
-				<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
-				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '}
-				{/* Paint Bucket button */}
 				<button
 					onClick={clearDrawing}
 					style={{ backgroundColor: clearConfirmation ? 'red' : 'initial' }}
 				>
 					{clearConfirmation ? 'Confirm?' : 'Clear Canvas'}
-				</button>
-				{/* Clear Canvas button */}
+				</button> {/* Clear Canvas button */}
+				<button onClick={undo}>Undo</button> {/* Undo button */}
+				<button onClick={redo}>Redo</button> {/* Redo button */}
+				<button onClick={switchToPen}>Pen</button> {/* Pen button */}
+				<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
+				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '} {/* Paint Bucket button */}
+				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
+				<button onClick={postDrawing}>Post</button> {/* Post button */}
+				<div id="posted-images" className="scroll-container" style={{ marginTop: '20px' }}>
+          			{!isPosted && <p>No posts yet. New posts will appear here.</p>}
+        		</div>
 			</div>
 		</div>
 	);
