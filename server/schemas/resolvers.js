@@ -66,11 +66,11 @@ const resolvers = {
 
       return `File uploaded successfully: ${id}`; // Return the ID of the uploaded file
     },
-
-    
+    // Resolver for deleting a post by ID
     deletePost: async (_, { postId }) => {
       return await Post.findByIdAndDelete(postId);
     },
+    // Resolver for adding a reaction to a post
     addReaction: async (_, { postId, reactionBody, username }) => {
       const post = await Post.findById(postId);
       if (post) {
@@ -85,6 +85,7 @@ const resolvers = {
       }
       throw new Error('Post not found');
     },
+    // Resolver for deleting a reaction from a post
     deleteReaction: async (_, { postId, reactionId }) => {
       const post = await Post.findById(postId);
       if (post) {
