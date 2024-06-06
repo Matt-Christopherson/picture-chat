@@ -39,6 +39,9 @@ const Canvas = () => {
 	}, [color, lineWidth, context, isEraserActive]); // Run when color, lineWidth, context, or isEraserActive changes
 
 	const startDrawing = (event) => {
+		event.preventDefault(); // Prevent default behavior
+    	event.stopPropagation(); // Stop propagation
+
 		// If paint bucket tool is active, fill the area instead of starting to draw
 		if (isPaintBucketActive) {
 			fillArea(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
@@ -54,6 +57,9 @@ const Canvas = () => {
 	};
 
 	const draw = (event) => {
+		event.preventDefault(); // Prevent default behavior
+    	event.stopPropagation(); // Stop propagation
+
 		// Draw a line to the current mouse position if drawing is active
 		if (!isDrawing) return;
 		const { offsetX, offsetY } = event.nativeEvent;
@@ -62,6 +68,9 @@ const Canvas = () => {
 	};
 
 	const stopDrawing = (event) => {
+		event.preventDefault(); // Prevent default behavior
+		event.stopPropagation(); // Stop propagation
+
 		// Finish the current drawing path when the user stops drawing
 		if (!isDrawing) return; // Only proceed if currently drawing
 		context.closePath();
@@ -156,6 +165,7 @@ const Canvas = () => {
 		link.click();
 	};
 
+	// Inside the postDrawing function
 	const postDrawing = () => {
 		const canvas = canvasRef.current;
 		const dataURL = canvas.toDataURL('image/jpeg');
@@ -168,7 +178,15 @@ const Canvas = () => {
 	
 		// Update isPosted state to true
 		setIsPosted(true);
-	};
+  	};
+  
+	useEffect(() => {
+		if (isPosted) {
+			const container = document.getElementById('posted-images');
+			container.lastChild.scrollIntoView({ behavior: 'smooth' });
+			setIsPosted(false); // Reset isPosted state after scrolling
+		}
+	}, [isPosted]);
 
 	const switchToPen = () => {
 		setIsEraserActive(false);
@@ -293,53 +311,55 @@ const Canvas = () => {
 	};
 
 	return (
-		<div>
-			<canvas
-				ref={canvasRef}
-				width={800}
-				height={600}
-				onMouseDown={startDrawing} // Event handler for mouse down
-				onMouseMove={draw} // Event handler for mouse move
-				onMouseUp={stopDrawing} // Event handler for mouse up
-				onMouseLeave={stopDrawing} // Event handler for mouse leave
-				style={{ border: '1px solid #000' }}
-			/>
-			<div>
-				<label htmlFor="colorPicker">Color: </label>
-				<input
-					type="color"
-					id="colorPicker"
-					value={color}
-					onChange={(e) => setColor(e.target.value)} // Update color state on change
+		<div className='page-container'>
+			<section className='canvas-container'>
+				<canvas
+					ref={canvasRef}
+					width={800}
+					height={600}
+					onMouseDown={startDrawing} // Event handler for mouse down
+					onMouseMove={draw} // Event handler for mouse move
+					onMouseUp={stopDrawing} // Event handler for mouse up
+					onMouseLeave={stopDrawing} // Event handler for mouse leave
+					style={{ border: '1px solid #000' }}
 				/>
-				<label htmlFor="lineWidth"> Line Width: </label>
-				<input
-					type="number"
-					id="lineWidth"
-					value={lineWidth}
-					min="1"
-					max="50"
-					onChange={(e) => setLineWidth(e.target.value)} // Update lineWidth state on change
-				/>
-			</div>
-			<div>
-				<button
-					onClick={clearDrawing}
-					style={{ backgroundColor: clearConfirmation ? 'red' : 'initial' }}
-				>
-					{clearConfirmation ? 'Confirm?' : 'Clear Canvas'}
-				</button> {/* Clear Canvas button */}
-				<button onClick={undo}>Undo</button> {/* Undo button */}
-				<button onClick={redo}>Redo</button> {/* Redo button */}
-				<button onClick={switchToPen}>Pen</button> {/* Pen button */}
-				<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
-				<button onClick={togglePaintBucket}>Paint Bucket</button>{' '} {/* Paint Bucket button */}
-				<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
-				<button onClick={postDrawing}>Post</button> {/* Post button */}
-				<div id="posted-images" className="scroll-container" style={{ marginTop: '20px' }}>
-          			{!isPosted && <p>No posts yet. New posts will appear here.</p>}
-        		</div>
-			</div>
+				<div>
+					<label htmlFor="colorPicker">Color: </label>
+					<input
+						type="color"
+						id="colorPicker"
+						value={color}
+						onChange={(e) => setColor(e.target.value)} // Update color state on change
+					/>
+					<label htmlFor="lineWidth"> Line Width: </label>
+					<input
+						type="number"
+						id="lineWidth"
+						value={lineWidth}
+						min="1"
+						max="50"
+						onChange={(e) => setLineWidth(e.target.value)} // Update lineWidth state on change
+					/>
+				</div>
+				<div>
+					<button
+						onClick={clearDrawing}
+						style={{ backgroundColor: clearConfirmation ? 'red' : 'initial' }}
+					>
+						{clearConfirmation ? 'Confirm?' : 'Clear Canvas'}
+					</button> {/* Clear Canvas button */}
+					<button onClick={undo}>Undo</button> {/* Undo button */}
+					<button onClick={redo}>Redo</button> {/* Redo button */}
+					<button onClick={switchToPen}>Pen</button> {/* Pen button */}
+					<button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
+					<button onClick={togglePaintBucket}>Paint Bucket</button>{' '} {/* Paint Bucket button */}
+					<button onClick={saveDrawing}>Save as JPEG</button> {/* Save button */}
+					<button onClick={postDrawing}>Post</button> {/* Post button */}
+					
+				</div>
+			</section>
+			<section id="posted-images" className="scroll-container" style={{ marginTop: '20px' }}>
+        	</section>
 		</div>
 	);
 };
