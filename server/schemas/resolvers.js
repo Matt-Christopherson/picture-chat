@@ -64,34 +64,36 @@ const resolvers = {
 
     //   return `File uploaded successfully: ${id}`; // Return the ID of the uploaded file
     // },
+
+    deletePost: async (_, { postId }) => {
+      return await Post.findByIdAndDelete(postId);
+    },
+    addReaction: async (_, { postId, reactionBody, username }) => {
+      const post = await Post.findById(postId);
+      if (post) {
+        const reaction = {
+          reactionBody,
+          username,
+          createdAt: new Date(),
+        };
+        post.reactions.push(reaction);
+        await post.save();
+        return post;
+      }
+      throw new Error('Post not found');
+    },
+    deleteReaction: async (_, { postId, reactionId }) => {
+      const post = await Post.findById(postId);
+      if (post) {
+        post.reactions = post.reactions.filter(reaction => reaction._id.toString() !== reactionId);
+        await post.save();
+        return post;
+      }
+      throw new Error('Post not found');
+      },
   },
 
-  deletePost: async (_, { postId }) => {
-    return await Post.findByIdAndDelete(postId);
-  },
-  addReaction: async (_, { postId, reactionBody, username }) => {
-    const post = await Post.findById(postId);
-    if (post) {
-      const reaction = {
-        reactionBody,
-        username,
-        createdAt: new Date(),
-      };
-      post.reactions.push(reaction);
-      await post.save();
-      return post;
-    }
-    throw new Error('Post not found');
-  },
-  deleteReaction: async (_, { postId, reactionId }) => {
-    const post = await Post.findById(postId);
-    if (post) {
-      post.reactions = post.reactions.filter(reaction => reaction._id.toString() !== reactionId);
-      await post.save();
-      return post;
-    }
-    throw new Error('Post not found');
-    },
+  
 };
 
 module.exports = resolvers;

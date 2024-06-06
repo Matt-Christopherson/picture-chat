@@ -22,6 +22,11 @@ const reactionSchema = new Schema({
 });
 
 const postSchema = new Schema ({
+  postId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+  },
+  
     postImage: {
         type: String,
         requried: 'You must draw something!',
