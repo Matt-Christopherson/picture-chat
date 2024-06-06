@@ -1,6 +1,6 @@
-const { User, Post } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
-const { GraphQLUpload } = require('apollo-server-express');
+import { User, Post } from '../models/index.js';
+import { signToken, AuthenticationError } from '../utils/auth.js';
+//import { GraphQLUpload } from 'apollo-server-express';
 
 const resolvers = {
   //Upload: GraphQLUpload, // Define the Upload scalar
@@ -67,4 +67,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export default resolvers;
