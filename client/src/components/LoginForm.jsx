@@ -1,43 +1,30 @@
 //imports
-const SignupForm = () => {
+
+const LoginForm = () => {
   //This code needs to...
-  //manages user signup by handling input changes
+
+  //manage the user login by handling input changes
   //validating the form
-  //submitting the signup request with user data
+  //submitting the login request with user data
   //and handling authentication or errors in a React component
+
   //copied form from book-search project
   return (
     <>
-      {/* This is needed for the validation functionality above */}
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        {/* show alert if server response is bad */}
         <Alert
           dismissible
           onClose={() => setShowAlert(false)}
           show={showAlert}
           variant="danger"
         >
-          Something went wrong with your signup!
+          Something went wrong with your login credentials!
         </Alert>
-        <Form.Group>
-          <Form.Label htmlFor="username">Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Your username"
-            name="username"
-            onChange={handleInputChange}
-            value={userFormData.username}
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Username is required!
-          </Form.Control.Feedback>
-        </Form.Group>
         <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Your email address"
+            type="text"
+            placeholder="Your email"
             name="email"
             onChange={handleInputChange}
             value={userFormData.email}
@@ -47,6 +34,7 @@ const SignupForm = () => {
             Email is required!
           </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group>
           <Form.Label htmlFor="password">Password</Form.Label>
           <Form.Control
@@ -62,13 +50,7 @@ const SignupForm = () => {
           </Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={
-            !(
-              userFormData.username &&
-              userFormData.email &&
-              userFormData.password
-            )
-          }
+          disabled={!(userFormData.email && userFormData.password)}
           type="submit"
           variant="success"
         >
@@ -78,4 +60,5 @@ const SignupForm = () => {
     </>
   );
 };
-export default SignupForm;
+
+export default LoginForm;

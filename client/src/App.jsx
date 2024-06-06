@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import './App.css';
 import Canvas from './components/Canvas';
 import SignUp from './components/Signup';
 import Login from './components/Login';
+
 
 function App() {
   const [showSignUp, setShowSignUp] = useState(false);
