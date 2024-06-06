@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -54,10 +53,20 @@ button:focus-visible {
   }
 }
 
+.page-container {
+  display: flex;
+  gap: 5%;
+  width: 100%;
+}
+
+.canvas-container {
+float: left;
+max-width: 830px;
+min-width: 830px;
+}
+
 canvas {
-  position: absolute;
-  top: 425px; /* Center vertically */
-  transform: translate(-50%, -50%);
+  border-radius: 10px;
 }
 
 /* Reset some default browser styles */
@@ -73,11 +82,12 @@ body {
   margin: 0; /* Remove default body margin */
   width: 100vw;
   height: 100vh;
+  background-color: #242424;
 }
 
 header {
   color: #fff;
-  padding: 20px 30px 675px;
+  padding: 20px 30px 20px;
 }
 
 .App-header {
@@ -117,35 +127,75 @@ nav a:hover {
 }
 
 .scroll-container {
-  border: 3px solid #333;
+  margin-top: 0 !important;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  max-height: 1500px; /* Adjust based on your design */
-  max-width: 100vw;
+  max-height: 560px; /* Adjust based on your design */
+  width: 30%;
   overflow-y: auto;
   background-color: #555;
   padding-top: 20px;
   padding-bottom: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
-/* Styles for mobile devices */
-@media (max-width: 800px) {
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container img {
+  width: 90%;
+  border-radius: 10px;
+}
+
+@media (max-width: 1300px) {
   .App-header {
-    flex-direction: column ;
+    flex-direction: column;
   }
-  
+
   header h1 {
     padding-left: 0;
   }
-  
 
   nav {
     position: relative;
     right: 0; /* Adjust the right position as needed */
+  }
+
+  .page-container {
+    flex-direction: column; /* Stack elements vertically and reverse their order on smaller screens */
+    align-items: center; /* Center elements horizontally */
+    gap: 20px; /* Add some space between elements */
+    padding-bottom: 50px;
+    max-width: 100vw;
+  }
+
+  .canvas-container {
+    max-width: 100%; /* Allow the canvas container to take full width */
+    min-width: unset; /* Remove the minimum width constraint */
+  }
+
+  .scroll-container {
+    max-width: 800px; /* Allow the scroll container to take full width */
+    width: 100%; /* Ensure the scroll container fills the width */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-height: 600px; /* Adjust based on your design */
+    overflow-y: auto;
+    background-color: #555;
+    padding: 20px 0px 20px;
+  }
+
+  .scroll-container img {
+    width: 95%;
+  }
+
+  canvas {
+    max-width: 100vw;
   }
 }
