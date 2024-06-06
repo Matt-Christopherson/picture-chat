@@ -1,0 +1,219 @@
+.App {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+  }
+  
+  a:hover {
+    color: #535bf2;
+  }
+  
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  }
+  
+  button:hover {
+    border-color: #646cff;
+  }
+  
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+  
+  @media (prefers-color-scheme: light) {
+    .App {
+      color: #213547;
+      background-color: #ffffff;
+    }
+  
+    a:hover {
+      color: #747bff;
+    }
+  
+    button {
+      background-color: #f9f9f9;
+    }
+  }
+  
+  .page-container {
+    display: flex;
+    gap: 5%;
+    width: 100%;
+  }
+  
+  .canvas-container {
+    float: left;
+    max-width: 830px;
+    min-width: 830px;
+  }
+  
+  canvas {
+    border-radius: 10px;
+  }
+  
+  body,
+  h1,
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    /* Remove default body margin */
+    width: 100vw;
+    height: 100vh;
+    background-color: #242424;
+  }
+  
+  header {
+    color: #fff;
+    padding: 20px 30px 20px;
+  }
+  
+  .App-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100vw;
+    margin: 0 auto;
+  }
+  
+  header h1 {
+    font-size: 2.5em;
+    flex: 1;
+    text-align: center;
+    padding-left: 20px;
+  }
+  
+  nav {
+    position: absolute;
+    right: 30px;
+    /* Adjust the right position as needed */
+    transform: translateY(-50%);
+  }
+  
+  nav ul {
+    display: flex;
+    gap: 15px;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  .scroll-container {
+    margin-top: 0 !important;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-height: 560px;
+    /* Adjust based on your design */
+    width: 30%;
+    overflow-y: auto;
+    background-color: #555;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll-container img {
+    width: 90%;
+    border-radius: 10px;
+  }
+  
+  @media (max-width: 1300px) {
+    .App-header {
+      flex-direction: column;
+    }
+  
+    header h1 {
+      padding-left: 0;
+    }
+  
+    nav {
+      position: relative;
+      right: 0;
+      /* Adjust the right position as needed */
+    }
+  
+    .page-container {
+      flex-direction: column;
+      /* Stack elements vertically and reverse their order on smaller screens */
+      align-items: center;
+      /* Center elements horizontally */
+      gap: 20px;
+      /* Add some space between elements */
+      padding-bottom: 50px;
+      max-width: 100vw;
+    }
+  
+    .canvas-container {
+      max-width: 100%;
+      /* Allow the canvas container to take full width */
+      min-width: unset;
+      /* Remove the minimum width constraint */
+    }
+  
+    .scroll-container {
+      max-width: 800px;
+      /* Allow the scroll container to take full width */
+      width: 100%;
+      /* Ensure the scroll container fills the width */
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-height: 600px;
+      /* Adjust based on your design */
+      overflow-y: auto;
+      background-color: #555;
+      padding: 20px 0px 20px;
+    }
+  
+    .scroll-container img {
+      width: 95%;
+    }
+  
+    canvas {
+      max-width: 100vw;
+    }
+  }
+  

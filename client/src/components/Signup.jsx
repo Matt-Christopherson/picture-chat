@@ -1,13 +1,10 @@
 //imports
-
 const SignupForm = () => {
   //This code needs to...
-
   //manages user signup by handling input changes
   //validating the form
   //submitting the signup request with user data
   //and handling authentication or errors in a React component
-
   //copied form from book-search project
   return (
     <>
@@ -22,7 +19,6 @@ const SignupForm = () => {
         >
           Something went wrong with your signup!
         </Alert>
-
         <Form.Group>
           <Form.Label htmlFor="username">Username</Form.Label>
           <Form.Control
@@ -37,7 +33,6 @@ const SignupForm = () => {
             Username is required!
           </Form.Control.Feedback>
         </Form.Group>
-
         <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
@@ -52,7 +47,6 @@ const SignupForm = () => {
             Email is required!
           </Form.Control.Feedback>
         </Form.Group>
-
         <Form.Group>
           <Form.Label htmlFor="password">Password</Form.Label>
           <Form.Control
@@ -84,5 +78,4 @@ const SignupForm = () => {
     </>
   );
 };
-
 export default SignupForm;

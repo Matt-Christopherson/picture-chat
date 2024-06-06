@@ -206,3 +206,56 @@ nav a:hover {
     max-width: 100vw;
   }
 }
+
+
+
+
+/* Popup styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-inner {
+  background-color: #242424;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 420px;
+  text-align: left;
+}
+
+.btn {
+  margin-top: 20px;
+  width: 40%;
+}
+
+.btn-success {
+  float: right;
+}
+
+.btn-secondary {
+  float: left;
+}
+
+.form-control {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.invalid-feedback {
+  color: rgb(180, 45, 45);
+}
+
+
+
