@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
 //   scalar Upload
 const typeDefs = gql`
@@ -46,7 +46,7 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;
 
 
 // uploadImage(file: Upload!): String
