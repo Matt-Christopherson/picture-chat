@@ -30,6 +30,11 @@ const typeDefs = gql`
     user: User
   }
 
+   input AddPostInput {
+    postImage: String!
+    username: String!
+  }
+
   type Query {
     users: [User]
     user(username: String!): User
@@ -40,6 +45,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    addPost(input: AddPostInput!): Post
     deletePost(postId: ID!): Post
     addReaction(postId: ID!, reactionBody: String!, username: String!): Post
     deleteReaction(postId: ID!, reactionId: ID!): Post
