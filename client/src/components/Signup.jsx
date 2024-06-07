@@ -1,11 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations.js';
 
 const SignupForm = ({ onClose }) => {
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const popupRef = useRef(null);
+
+  const [addUser, { loading, error }] = useMutation(ADD_USER, {
+    onCompleted: (data) => {
+      const { token } = data.addUser;
+      localStorage.setItem('token', token);
+      onClose();
+    },
+    onError: () => {
+      setShowAlert(true);
+    },
+  });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -17,15 +30,12 @@ const SignupForm = ({ onClose }) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      setValidated(true); // Set validated to true to trigger validation feedback
+      setValidated(true);
     } else {
       try {
-        // Add your signup logic here, for example:
-        // await signup(userFormData);
-        // on success:
-        onClose();
+        await addUser({ variables: { ...userFormData } });
       } catch (err) {
-        setShowAlert(true);
+        console.error(err);
       }
     }
   };
@@ -53,7 +63,7 @@ const SignupForm = ({ onClose }) => {
 
           <Form.Group>
             <Form.Label htmlFor='username'>Username</Form.Label>
-            <Form.Control className='form-control'
+            <Form.Control
               type='text'
               placeholder='Your username'
               name='username'
@@ -67,7 +77,7 @@ const SignupForm = ({ onClose }) => {
 
           <Form.Group>
             <Form.Label htmlFor='email'>Email</Form.Label>
-            <Form.Control className='form-control'
+            <Form.Control
               type='email'
               placeholder='Your email address'
               name='email'
@@ -81,7 +91,7 @@ const SignupForm = ({ onClose }) => {
 
           <Form.Group>
             <Form.Label htmlFor='password'>Password</Form.Label>
-            <Form.Control className='form-control'
+            <Form.Control
               type='password'
               placeholder='Your password'
               name='password'
@@ -94,7 +104,7 @@ const SignupForm = ({ onClose }) => {
           </Form.Group>
 
           <Button
-            disabled={!(userFormData.username && userFormData.email && userFormData.password)}
+            disabled={loading || !(userFormData.username && userFormData.email && userFormData.password)}
             type='submit'
             variant='success'>
             Submit
