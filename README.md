@@ -1,20 +1,16 @@
 # Picture Chat
-
 ## Description
-
-
+Picture Chat is an new and exciting social media platform designed to revolutionize the way you connect with friends. Express yourself through doodles and handwritten notes, making every conversation unique and personal. Engage with our community by reacting to your favorite drawings on the timeline, and contribute your own to join the conversation!
 ## User Story
-
-
+AS A casual artist
+I WANT to share and react to others' doodles
+SO THAT I can connect with others online in a unique and fun way
 ## Usage
-
-
+Use the canvas to whip up a simple doodle in minutes. Be sure to have fun and don't worry about making the perfect drawing. When you're done, click the post button to add your drawing to the timeline!
 ## Screenshots
 
-
 ## Credits
-
-
+Created by Alex Ryder, Connor Spendlove, Matthew Christopherson, Parker Rappleye, Tyler Sanford, and Zeno Gallegos.
 ## Links
 - [Project repository](https://github.com/Matt-Christopherson/picture-chat)
 - [Alex Ryder GitHub](https://github.com/Zorzorac05)
