@@ -1,21 +1,10 @@
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from 'mongoose';
 
-const db = mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/pictureChat', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+export default async function connect(){
+  const mongoServer = await MongoMemoryServer.create();
+  const mongoUri = mongoServer.getUri();
 
-// async function db() {
-//   try {
-//     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/pictureChat', {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("Connected to MongoDB");
-//   }
-//   catch (error) {
-//     console.error("Error connecting to MongoDB: ", error);
-//   }
-// };
-
-export default db;
+  await mongoose.connect(mongoUri, { dbName: "picure-chat"});
+  console.log(`MongoDB connected to ${mongoUri}`);
+};
