@@ -324,7 +324,7 @@ const Canvas = () => {
           onMouseLeave={stopDrawing} // Event handler for mouse leave
           style={{ border: "1px solid #000" }}
         />
-        <div>
+        <div className="color-pick-cont">
           <label htmlFor="colorPicker">Color: </label>
           <input
             type="color"
@@ -342,13 +342,7 @@ const Canvas = () => {
             onChange={(e) => setLineWidth(e.target.value)} // Update lineWidth state on change
           />
         </div>
-        <div>
-          <button
-            onClick={clearDrawing}
-            style={{ backgroundColor: clearConfirmation ? "red" : "initial" }}
-          >
-            {clearConfirmation ? "Confirm?" : "Clear Canvas"}
-          </button>{" "}
+        <div className="btn-cont">
           {/* Clear Canvas button */}
           <button onClick={undo}>Undo</button> {/* Undo button */}
           <button onClick={redo}>Redo</button> {/* Redo button */}
@@ -358,7 +352,16 @@ const Canvas = () => {
           {/* Paint Bucket button */}
           <button onClick={saveDrawing}>Save as JPEG</button>{" "}
           {/* Save button */}
-          <button onClick={postDrawing}>Post</button> {/* Post button */}
+          <button id="post-btn" onClick={postDrawing}>
+            Post
+          </button>{" "}
+          {/* Post button */}
+          <button
+            onClick={clearDrawing}
+            style={{ backgroundColor: clearConfirmation ? "red" : "initial" }}
+          >
+            {clearConfirmation ? "Confirm?" : "Clear Canvas"}
+          </button>{" "}
         </div>
       </section>
       <PostContainer />
