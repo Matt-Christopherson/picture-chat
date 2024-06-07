@@ -2,54 +2,49 @@ import React, { useRef, useState, useEffect } from "react";
 import PostContainer from "./PostContainer";
 
 const Canvas = () => {
-  const canvasRef = useRef(null); // Reference to the canvas element
-  const [isDrawing, setIsDrawing] = useState(false); // State to track drawing status
-  const [context, setContext] = useState(null); // State to store canvas context
-  const [color, setColor] = useState("#000000"); // State to store selected color
-  const [lineWidth, setLineWidth] = useState(5); // State to store selected line width
-  const [history, setHistory] = useState([]); // State to store history of canvas states
-  const [redoStack, setRedoStack] = useState([]); // State to store redo stack
-  const [isEraserActive, setIsEraserActive] = useState(false); // State to track eraser mode
-  const [isPaintBucketActive, setIsPaintBucketActive] = useState(false); // State to track paint bucket mode
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Track mouse position
-  const [clearConfirmation, setClearConfirmation] = useState(false); // State to track clear canvas confirmation
-  const [isPosted, setIsPosted] = useState(false); // State to track if an image is posted
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [context, setContext] = useState(null);
+  const [color, setColor] = useState("#000000");
+  const [lineWidth, setLineWidth] = useState(5);
+  const [history, setHistory] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+  const [isEraserActive, setIsEraserActive] = useState(false);
+  const [isPaintBucketActive, setIsPaintBucketActive] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [clearConfirmation, setClearConfirmation] = useState(false);
+  const [isPosted, setIsPosted] = useState(false);
+  const [postList, setPostList] = useState([]); // Ensure postList is initialized as an empty array
 
   useEffect(() => {
-    // Set up the canvas context and default background
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
     if (context === null) {
-      // Fill the canvas with a white background once
       ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Set drawing parameters
       ctx.lineCap = "round";
       setContext(ctx);
     }
-  }, []); // Run only once on mount
+  }, []);
 
   useEffect(() => {
     if (context) {
-      // Update drawing parameters when color or lineWidth changes
       context.strokeStyle = isEraserActive ? "#FFFFFF" : color;
       context.lineWidth = isEraserActive ? lineWidth * 5 : lineWidth;
     }
-  }, [color, lineWidth, context, isEraserActive]); // Run when color, lineWidth, context, or isEraserActive changes
+  }, [color, lineWidth, context, isEraserActive]);
 
   const startDrawing = (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Stop propagation
+    event.preventDefault();
+    event.stopPropagation();
 
-    // If paint bucket tool is active, fill the area instead of starting to draw
     if (isPaintBucketActive) {
       fillArea(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
       return;
     }
 
-    // Begin a new drawing path when the user starts drawing
     const { offsetX, offsetY } = event.nativeEvent;
     context.beginPath();
     context.moveTo(offsetX, offsetY);
@@ -58,10 +53,9 @@ const Canvas = () => {
   };
 
   const draw = (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Stop propagation
+    event.preventDefault();
+    event.stopPropagation();
 
-    // Draw a line to the current mouse position if drawing is active
     if (!isDrawing) return;
     const { offsetX, offsetY } = event.nativeEvent;
     context.lineTo(offsetX, offsetY);
@@ -69,19 +63,16 @@ const Canvas = () => {
   };
 
   const stopDrawing = (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Stop propagation
+    event.preventDefault();
+    event.stopPropagation();
 
-    // Finish the current drawing path when the user stops drawing
-    if (!isDrawing) return; // Only proceed if currently drawing
+    if (!isDrawing) return;
     context.closePath();
     setIsDrawing(false);
 
     const { offsetX, offsetY } = event.nativeEvent;
 
-    // Check if the mouse position hasn't changed
     if (mousePosition.x === offsetX && mousePosition.y === offsetY) {
-      // Draw a dot
       context.beginPath();
       context.arc(offsetX, offsetY, context.lineWidth / 2, 0, Math.PI * 2);
       context.fillStyle = isEraserActive ? "#FFFFFF" : color;
@@ -89,7 +80,6 @@ const Canvas = () => {
       context.closePath();
     }
 
-    // Save the current state of the canvas to history
     saveCanvasState();
   };
 
@@ -140,12 +130,10 @@ const Canvas = () => {
 
   const clearDrawing = () => {
     if (!clearConfirmation) {
-      // If confirmation is not yet received, set confirmation state to true
       setClearConfirmation(true);
       return;
     }
 
-    // Clear the canvas and reset confirmation state
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#FFFFFF";
@@ -157,7 +145,6 @@ const Canvas = () => {
   };
 
   const saveDrawing = () => {
-    // Save the canvas content as a JPEG file
     const canvas = canvasRef.current;
     const dataURL = canvas.toDataURL("image/jpeg");
     const link = document.createElement("a");
@@ -166,18 +153,23 @@ const Canvas = () => {
     link.click();
   };
 
-  // Inside the postDrawing function
   const postDrawing = () => {
     const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    const now = new Date();
+    const time = now.toLocaleTimeString();
+    const date = now.toLocaleDateString();
+    const username = "User123";
+
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillText(`${username}`, 10, 30);
+    ctx.fillText(`${date} ${time}`, 10, 60);
+
     const dataURL = canvas.toDataURL("image/jpeg");
-    const img = document.createElement("img");
-    img.src = dataURL;
-    img.alt = "Posted drawing";
 
-    // Append the image to the container
-    document.getElementById("posted-images").appendChild(img);
-
-    // Update isPosted state to true
+    setPostList([...postList, dataURL]);
     setIsPosted(true);
   };
 
@@ -185,7 +177,7 @@ const Canvas = () => {
     if (isPosted) {
       const container = document.getElementById("posted-images");
       container.lastChild.scrollIntoView({ behavior: "smooth" });
-      setIsPosted(false); // Reset isPosted state after scrolling
+      setIsPosted(false);
     }
   }, [isPosted]);
 
@@ -208,7 +200,7 @@ const Canvas = () => {
     const canvas = canvasRef.current;
     const dataURL = canvas.toDataURL();
     setHistory([...history, dataURL]);
-    setRedoStack([]); // Clear the redo stack
+    setRedoStack([]);
   };
 
   const fillArea = (startX, startY) => {
@@ -227,10 +219,7 @@ const Canvas = () => {
       let y = newPos[1];
       let pixelPos = (y * canvas.width + x) * 4;
 
-      while (
-        y >= 0 &&
-        colorsMatch(getPixelColor(imageData, x, y), startColor)
-      ) {
+      while (y >= 0 && colorsMatch(getPixelColor(imageData, x, y), startColor)) {
         y--;
         pixelPos -= canvas.width * 4;
       }
@@ -361,7 +350,7 @@ const Canvas = () => {
           <button onClick={postDrawing}>Post</button> {/* Post button */}
         </div>
       </section>
-      <PostContainer />
+      <PostContainer postList={postList} />
     </div>
   );
 };
