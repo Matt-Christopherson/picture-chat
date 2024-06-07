@@ -46,24 +46,6 @@ const resolvers = {
 
       return { token, user }; // Log in a user
     },
-    // uploadImage: async (parent, { file }, { gfs }) => {
-    //   const { createReadStream, filename, mimetype, encoding } = await file;
-    //   const stream = createReadStream();
-
-    //   // Upload to GridFS
-    //   const { id } = await new Promise((resolve, reject) => {
-    //     const writeStream = gfs.createWriteStream({
-    //       filename,
-    //       contentType: mimetype, // MIME type of the file
-    //     });
-
-    //     stream.pipe(writeStream)
-    //       .on('finish', () => resolve({ id: writeStream.id })) // Resolve when the upload finishes
-    //       .on('error', reject); // Reject on error
-    //   });
-
-    //   return `File uploaded successfully: ${id}`; // Return the ID of the uploaded file
-    // },
 
     deletePost: async (_, { postId }) => {
       return await Post.findByIdAndDelete(postId);
@@ -91,9 +73,25 @@ const resolvers = {
       }
       throw new Error('Post not found');
       },
+
+      addPost: async (_, { postImage, username }) => {
+        const user = await User.findOne({ username });
+        if (!user) {
+          throw new Error('User not found');
+        }
+    
+        const newPost = new Post({
+          postImage,
+          user: username,
+          createdAt: new Date(),
+        });
+    
+        await newPost.save();
+        return newPost;
+      },
+
   },
 
-  
 };
 
 export default resolvers;
