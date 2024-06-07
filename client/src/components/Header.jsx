@@ -1,4 +1,3 @@
-import "../App.css";
 const Header = () => {
   return (
     <header className="App-header">

@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import Canvas from './components/Canvas';
-import SignUp from './components/Signup';
-import Login from './components/Login';
-
+import { useState } from "react";
+import Canvas from "./components/Canvas";
+import SignUp from "./components/Signup";
+import Login from "./components/Login";
 
 function App() {
   const [showSignUp, setShowSignUp] = useState(false);
@@ -18,9 +17,19 @@ function App() {
           <h1>Picture Chat</h1>
           <nav>
             <ul>
-              <li><a href="#logout">logout</a></li>
-              <li><a href="#signup" onClick={toggleSignUp}>signup</a></li>
-              <li><a href="#login" onClick={toggleLogin}>login</a></li>
+              <li>
+                <a href="#logout">logout</a>
+              </li>
+              <li>
+                <a href="#signup" onClick={toggleSignUp}>
+                  signup
+                </a>
+              </li>
+              <li>
+                <a href="#login" onClick={toggleLogin}>
+                  login
+                </a>
+              </li>
             </ul>
           </nav>
         </header>
