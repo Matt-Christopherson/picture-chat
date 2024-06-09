@@ -1,5 +1,6 @@
 import { User, Post } from '../models/index.js';
-import { signToken, AuthenticationError } from '../utils/auth.js';
+import { signToken } from '../utils/auth.js';
+import { AuthenticationError } from 'apollo-server-express';
 //import { GraphQLUpload } from 'apollo-server-express';
 
 const resolvers = {

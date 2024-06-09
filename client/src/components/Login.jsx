@@ -1,11 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../utils/mutations'; // Import the LOGIN mutation
 
 const Login = ({ onClose }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const popupRef = useRef(null);
+
+  const [login, { loading, error }] = useMutation(LOGIN, {
+    onCompleted: (data) => {
+      const { token } = data.login;
+      localStorage.setItem('token', token);
+      onClose();
+    },
+    onError: (error) => {
+      console.error('Login error:', error.message); // Log error to console
+      setShowAlert(true);
+    },
+  });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -17,13 +31,10 @@ const Login = ({ onClose }) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      setValidated(true); // Set validated to true to trigger validation feedback
+      setValidated(true);
     } else {
       try {
-        // Add your login logic here, for example:
-        // await login(userFormData);
-        // on success:
-        onClose();
+        await login({ variables: { ...userFormData } });
       } catch (err) {
         setShowAlert(true);
       }
@@ -78,10 +89,10 @@ const Login = ({ onClose }) => {
             <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
           </Form.Group>
           <Button
-            disabled={!(userFormData.email && userFormData.password)}
+            disabled={loading || !(userFormData.email && userFormData.password)}
             type='submit'
             variant='success'>
-            Submit
+            {loading ? 'Logging in...' : 'Submit'}
           </Button>
           <Button type='button' onClick={onClose} variant='secondary'>Close</Button>
         </Form>
