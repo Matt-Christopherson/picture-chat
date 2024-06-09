@@ -69,11 +69,11 @@ const App = () => {
                   login
                 </a>
               </li>
-              {loggedInUser && (
-                <li>
-                  <p>Currently logged in as {loggedInUser}</p>
-                </li>
-              )}
+      {loggedInUser && (
+        <li>
+          <p>Currently logged in as {loggedInUser}</p>
+        </li>
+      )}
             </ul>
           </nav>
         </header>
