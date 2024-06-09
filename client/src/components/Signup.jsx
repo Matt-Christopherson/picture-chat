@@ -14,6 +14,7 @@ const SignupForm = ({ onClose }) => {
       const { token } = data.addUser;
       localStorage.setItem('token', token);
       onClose();
+      window.location.reload();
     },
     onError: () => {
       setShowAlert(true);

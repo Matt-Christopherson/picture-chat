@@ -14,6 +14,7 @@ const Login = ({ onClose }) => {
       const { token } = data.login;
       localStorage.setItem('token', token);
       onClose();
+      window.location.reload();
     },
     onError: (error) => {
       console.error('Login error:', error.message); // Log error to console
