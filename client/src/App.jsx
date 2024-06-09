@@ -1,9 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Canvas from "./components/Canvas";
 import SignUp from "./components/Signup";
 import Login from "./components/Login";
 
-function App() {
+import AuthService from './utils/auth'; // Changed to default import
+
+const App = () => {
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  useEffect(() => {
+    // Retrieve token from local storage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Decode token to extract user information
+      const user = AuthService.getProfile(token); // Changed to use getProfile
+      if (user) {
+        setLoggedInUser(user.username); 
+      }
+    }
+  }, []);
+
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
@@ -30,6 +47,11 @@ function App() {
                   login
                 </a>
               </li>
+              {loggedInUser && (
+                <li>
+                  <p>Currently logged in as {loggedInUser}</p>
+                </li>
+              )}
             </ul>
           </nav>
         </header>
@@ -42,3 +64,4 @@ function App() {
 }
 
 export default App;
+
