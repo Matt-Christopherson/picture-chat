@@ -3,7 +3,7 @@ import Canvas from "./components/Canvas";
 import SignUp from "./components/Signup";
 import Login from "./components/Login";
 
-import AuthService from './utils/auth'; // Changed to default import
+import AuthService from './utils/auth'; 
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -11,15 +11,19 @@ const App = () => {
   useEffect(() => {
     // Retrieve token from local storage
     const token = localStorage.getItem('token');
-
+    console.log('Token:', token); // Log the token to the console
+  
     if (token) {
       // Decode token to extract user information
-      const user = AuthService.getProfile(token); // Changed to use getProfile
+      const user = AuthService.getProfile(token);
+      console.log('User:', user); // Log the user object to the console
+  
       if (user) {
         setLoggedInUser(user.username); 
       }
     }
   }, []);
+  
 
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
