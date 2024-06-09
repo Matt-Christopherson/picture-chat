@@ -8,3 +8,4 @@ export default async function connect(){
   await mongoose.connect(mongoUri, { dbName: "picure-chat"});
   console.log(`MongoDB connected to ${mongoUri}`);
 };
+// config.js

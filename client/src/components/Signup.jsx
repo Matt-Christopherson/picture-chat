@@ -33,9 +33,11 @@ const SignupForm = ({ onClose }) => {
       setValidated(true);
     } else {
       try {
+        console.log("Submitting form with data:", userFormData);
         await addUser({ variables: { ...userFormData } });
+        console.log("User added successfully");
       } catch (err) {
-        console.error(err);
+        console.error("Error adding user:", err);
       }
     }
   };
