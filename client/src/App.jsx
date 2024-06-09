@@ -7,6 +7,7 @@ import AuthService from './utils/auth';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
+  
 
   useEffect(() => {
     // Retrieve token from local storage
@@ -16,13 +17,21 @@ const App = () => {
     if (token) {
       // Decode token to extract user information
       const user = AuthService.getProfile(token);
-      console.log('User:', user); // Log the user object to the console
+      console.log('Decoded Token:', user); // Log the decoded token to the console
   
-      if (user) {
-        setLoggedInUser(user.username); 
+      if (user && user.authenticatedPerson) {
+        const { username } = user.authenticatedPerson; // Access username property from authenticatedPerson object
+        console.log('Extracted Username:', username); // Log the extracted username to the console
+  
+        if (username) {
+          setLoggedInUser(username); 
+          console.log('loggedInUser:', username);
+        }
       }
     }
   }, []);
+  
+  
   
 
   const [showSignUp, setShowSignUp] = useState(false);
