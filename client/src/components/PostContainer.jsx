@@ -1,11 +1,19 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { GET_POSTS } from '../utils/queries';
 
-const PostContainer = ({ postList = [] }) => {
+const PostContainer = () => {
+  const { loading, error, data } = useQuery(GET_POSTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <section id="posted-images" className="scroll-container" style={{ marginTop: "20px" }}>
-      {postList.map((post, index) => (
+      {data.posts.map((post, index) => (
         <div key={index} style={{ marginBottom: "10px" }}>
-          <img src={post} alt={`Post ${index + 1}`} style={{ maxWidth: "100%" }} />
+          <img src={post.postImage} alt={`Post ${index + 1}`} style={{ maxWidth: "100%" }} />
+          <p>Created by: {post.user}</p>
         </div>
       ))}
     </section>
@@ -13,3 +21,4 @@ const PostContainer = ({ postList = [] }) => {
 };
 
 export default PostContainer;
+

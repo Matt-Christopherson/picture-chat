@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
+import  dateFormat from '../utils/dateFormat.js';
 
 const reactionSchema = new Schema({
   reactionId: {
@@ -17,35 +18,30 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (createdAtVal) => dateFormat(createdAtVal),
+    get: (timestamp) => dateFormat(timestamp),
   },
 });
 
-const postSchema = new Schema ({
+const postSchema = new Schema({
   postId: {
     type: Schema.Types.ObjectId,
     default: () => new Types.ObjectId(),
   },
-  
-    postImage: {
-        type: String,
-        requried: 'You must draw something!',
-    },
-
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: (createdAtVal) => dateFormat(createdAtVal),
-      },
-
-      user: {
-        type: String,
-        required: true,
-      },
-
-      reactions: [reactionSchema],
-})
-
+  postImage: {
+    type: String,
+    required: true,
+  }, // Store base64-encoded image data
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
+  },
+  user: {
+    type: String,
+    required: true,
+  },
+  reactions: [reactionSchema],
+});
 
 const Post = model('Post', postSchema);
 
