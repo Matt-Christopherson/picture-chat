@@ -22,6 +22,9 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    posts: async () => {
+      return await Post.find().sort({ createdAt: -1 });
+    },
   },
 
   Mutation: {

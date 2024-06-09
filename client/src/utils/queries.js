@@ -46,3 +46,20 @@ export const GET_ME = gql`
     }
   }
 `;
+
+export const GET_POSTS = gql`
+  query getPosts {
+    posts {
+      postId
+      postImage
+      user
+      createdAt
+      reactions {
+        reactionId
+        reactionBody
+        username
+        createdAt
+      }
+    }
+  }
+`;

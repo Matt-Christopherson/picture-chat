@@ -12,18 +12,20 @@ const typeDefs = gql`
   }
 
   type Post {
-    _id: ID
-    img: String
-    createdAt: String
-    user: String
-    reactions: [Reactions]!
-  }
+  postId: ID!
+  postImage: String!
+  createdAt: String!
+  user: String!
+  reactions: [Reaction]
+}
 
-  type Reactions {
-    reactionBody: String
-    username: String
-    createdAt: String
-  }
+
+ type Reaction {
+  reactionId: ID!
+  reactionBody: String!
+  username: String!
+  createdAt: String!
+}
 
   type Auth {
     token: ID!
@@ -36,6 +38,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    posts: [Post]
     users: [User]
     user(username: String!): User
     post(username: String): [Post]
@@ -45,7 +48,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addPost(input: AddPostInput!): Post
+    addPost(postImage: String!, username: String!): Post
     deletePost(postId: ID!): Post
     addReaction(postId: ID!, reactionBody: String!, username: String!): Post
     deleteReaction(postId: ID!, reactionId: ID!): Post

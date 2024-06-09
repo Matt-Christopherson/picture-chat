@@ -75,12 +75,12 @@ export const DELETE_REACTION = gql`
 export const ADD_POST = gql`
   mutation addPost($postImage: String!, $username: String!) {
     addPost(postImage: $postImage, username: $username) {
-      _id
+      postId
       postImage
       user
       createdAt
       reactions {
-        _id
+        reactionId
         reactionBody
         username
         createdAt
