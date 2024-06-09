@@ -31,6 +31,15 @@ const App = () => {
     }
   }, []);
   
+  const handleLogout = () => {
+    const confirmLogout = window.confirm('Are you sure you want to logout?');
+    // Call the logout function from AuthService
+    if(confirmLogout){
+    AuthService.logout();
+    // Clear the loggedInUser state
+    setLoggedInUser(null);
+    }
+  };
   
   
 
@@ -48,7 +57,7 @@ const App = () => {
           <nav>
             <ul>
               <li>
-                <a href="#logout">logout</a>
+              <a href="#logout" onClick={handleLogout}>logout</a> 
               </li>
               <li>
                 <a href="#signup" onClick={toggleSignUp}>
