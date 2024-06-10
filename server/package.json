@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "seed": "node seeds/seed.js",
-    "watch": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "render-build":"npm install && npm run build"
   },
   "type": "module",
   "author": "",
