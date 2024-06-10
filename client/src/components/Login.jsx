@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-import { useMutation } from '@apollo/client';
-import { LOGIN } from '../utils/mutations'; // Import the LOGIN mutation
+import React, { useState, useEffect, useRef } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../utils/mutations"; // Import the LOGIN mutation
 
 const Login = ({ onClose }) => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const popupRef = useRef(null);
@@ -12,12 +12,12 @@ const Login = ({ onClose }) => {
   const [login, { loading, error }] = useMutation(LOGIN, {
     onCompleted: (data) => {
       const { token } = data.login;
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       onClose();
       window.location.reload();
     },
     onError: (error) => {
-      console.error('Login error:', error.message); // Log error to console
+      console.error("Login error:", error.message); // Log error to console
       setShowAlert(true);
     },
   });
@@ -49,9 +49,9 @@ const Login = ({ onClose }) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
 
@@ -59,43 +59,57 @@ const Login = ({ onClose }) => {
     <div className="popup">
       <div className="popup-inner" ref={popupRef}>
         <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-          <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+          <Alert
+            dismissible
+            onClose={() => setShowAlert(false)}
+            show={showAlert}
+            variant="danger"
+          >
             Something went wrong with your login credentials!
           </Alert>
           <Form.Group>
-            <Form.Label htmlFor='email'>Email</Form.Label>
-            <Form.Control className='form-control'
-              type='email'
-              placeholder='Your email'
-              name='email'
+            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Control
+              className="form-control"
+              type="email"
+              placeholder="Your email"
+              name="email"
               onChange={handleInputChange}
               value={userFormData.email}
               required
               isInvalid={validated && !userFormData.email}
             />
-            <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              Email is required!
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
-            <Form.Label htmlFor='password'>Password</Form.Label>
-            <Form.Control className='form-control'
-              type='password'
-              placeholder='Your password'
-              name='password'
+            <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Control
+              className="form-control"
+              type="password"
+              placeholder="Your password"
+              name="password"
               onChange={handleInputChange}
               value={userFormData.password}
               required
               isInvalid={validated && !userFormData.password}
             />
-            <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              Password is required!
+            </Form.Control.Feedback>
           </Form.Group>
           <Button
             disabled={loading || !(userFormData.email && userFormData.password)}
-            type='submit'
-            variant='success'>
-            {loading ? 'Logging in...' : 'Submit'}
+            type="submit"
+            variant="success"
+          >
+            {loading ? "Logging in..." : "Submit"}
           </Button>
-          <Button type='button' onClick={onClose} variant='secondary'>Close</Button>
+          <Button type="button" onClick={onClose} variant="secondary">
+            Close
+          </Button>
         </Form>
       </div>
     </div>

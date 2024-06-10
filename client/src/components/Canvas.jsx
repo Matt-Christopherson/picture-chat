@@ -1,15 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { ADD_POST } from '../utils/mutations'; // Adjust the path to your mutations file
-import { GET_POSTS } from '../utils/queries'; // Adjust the path to your queries file
-import PostContainer from './PostContainer';
-import AuthService from '../utils/auth'; 
+import React, { useRef, useState, useEffect } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { ADD_POST } from "../utils/mutations"; // Adjust the path to your mutations file
+import { GET_POSTS } from "../utils/queries"; // Adjust the path to your queries file
+import PostContainer from "./PostContainer";
+import AuthService from "../utils/auth";
 
 const Canvas = () => {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [context, setContext] = useState(null);
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
@@ -25,26 +25,26 @@ const Canvas = () => {
 
   useEffect(() => {
     if (data) {
-      setPostList(data.posts.map(post => post.postImage));
+      setPostList(data.posts.map((post) => post.postImage));
     }
   }, [data]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     if (context === null) {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.lineCap = 'round';
+      ctx.lineCap = "round";
       setContext(ctx);
     }
   }, []);
 
   useEffect(() => {
     if (context) {
-      context.strokeStyle = isEraserActive ? '#FFFFFF' : color;
+      context.strokeStyle = isEraserActive ? "#FFFFFF" : color;
       context.lineWidth = isEraserActive ? lineWidth * 5 : lineWidth;
     }
   }, [color, lineWidth, context, isEraserActive]);
@@ -88,7 +88,7 @@ const Canvas = () => {
     if (mousePosition.x === offsetX && mousePosition.y === offsetY) {
       context.beginPath();
       context.arc(offsetX, offsetY, context.lineWidth / 2, 0, Math.PI * 2);
-      context.fillStyle = isEraserActive ? '#FFFFFF' : color;
+      context.fillStyle = isEraserActive ? "#FFFFFF" : color;
       context.fill();
       context.closePath();
     }
@@ -104,7 +104,7 @@ const Canvas = () => {
     setHistory(newHistory);
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     if (newHistory.length > 0) {
       const prevState = newHistory[newHistory.length - 1];
@@ -115,7 +115,7 @@ const Canvas = () => {
         ctx.drawImage(img, 0, 0);
       };
     } else {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -130,7 +130,7 @@ const Canvas = () => {
     setRedoStack(newRedoStack);
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const img = new Image();
     img.src = nextState;
     img.onload = () => {
@@ -148,8 +148,8 @@ const Canvas = () => {
     }
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#FFFFFF';
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     setHistory([]);
@@ -159,68 +159,61 @@ const Canvas = () => {
 
   const saveDrawing = () => {
     const canvas = canvasRef.current;
-    const dataURL = canvas.toDataURL('image/jpeg');
-    const link = document.createElement('a');
-    link.download = 'drawing.jpg';
+    const dataURL = canvas.toDataURL("image/jpeg");
+    const link = document.createElement("a");
+    link.download = "drawing.jpg";
     link.href = dataURL;
     link.click();
   };
 
   const postDrawing = () => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     const now = new Date();
     const time = now.toLocaleTimeString();
     const date = now.toLocaleDateString();
 
+    // Retrieve token from local storage
+    const token = localStorage.getItem("token");
+    console.log("Token:", token); // Log the token to the console
 
-		// Retrieve token from local storage
-		const token = localStorage.getItem('token');
-		console.log('Token:', token); // Log the token to the console
-	  
-		if (token) {
-		  // Decode token to extract user information
-		  const user = AuthService.getProfile(token);
-		  console.log('Decoded Token:', user); // Log the decoded token to the console
-	  
-		  if (user && user.authenticatedPerson) {
-			const { username } = user.authenticatedPerson; // Access username property from authenticatedPerson object
-			console.log('Extracted Username:', username); // Log the extracted username to the console
-			const dataURL = canvas.toDataURL('image/jpeg');
-			ctx.fillText(`${username}`, 10, 30);
+    if (token) {
+      // Decode token to extract user information
+      const user = AuthService.getProfile(token);
+      console.log("Decoded Token:", user); // Log the decoded token to the console
 
-    addPost({
-      variables: { postImage: dataURL, username: username }
-    });
-	  
-			
-		  }
-		}
-	  ;
+      if (user && user.authenticatedPerson) {
+        const { username } = user.authenticatedPerson; // Access username property from authenticatedPerson object
+        console.log("Extracted Username:", username); // Log the extracted username to the console
+        const dataURL = canvas.toDataURL("image/jpeg");
+        ctx.fillText(`${username}`, 10, 30);
 
-    ctx.font = '20px Arial';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    ctx
-    
+        addPost({
+          variables: { postImage: dataURL, username: username },
+        });
+      }
+    }
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx;
+
     ctx.fillText(`${date} ${time}`, 10, 60);
 
-    
-
     // Clear the canvas after posting the image
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     setHistory([]);
     setRedoStack([]);
     setClearConfirmation(false);
-	window.location.reload();
+    window.location.reload();
   };
 
   useEffect(() => {
     if (isPosted) {
-      const container = document.getElementById('posted-images');
-      container.lastChild.scrollIntoView({ behavior: 'smooth' });
+      const container = document.getElementById("posted-images");
+      container.lastChild.scrollIntoView({ behavior: "smooth" });
       setIsPosted(false);
     }
   }, [isPosted]);
@@ -249,7 +242,7 @@ const Canvas = () => {
 
   const fillArea = (startX, startY) => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixelStack = [[startX, startY]];
     const startColor = getPixelColor(imageData, startX, startY);
@@ -350,6 +343,7 @@ const Canvas = () => {
   return (
     <div className="page-container">
       <section className="canvas-container">
+        <h2 id="canvas-message">Draw Here!</h2>
         <canvas
           ref={canvasRef}
           width={800}
@@ -358,7 +352,7 @@ const Canvas = () => {
           onMouseMove={draw} // Event handler for mouse move
           onMouseUp={stopDrawing} // Event handler for mouse up
           onMouseLeave={stopDrawing} // Event handler for mouse leave
-          style={{ border: '1px solid #000' }}
+          style={{ border: "1px solid #000" }}
         />
         <div className="color-pick-cont">
           <label htmlFor="colorPicker">Color: </label>
@@ -383,22 +377,22 @@ const Canvas = () => {
           <button onClick={undo}>Undo</button> {/* Undo button */}
           <button onClick={redo}>Redo</button> {/* Redo button */}
           <button onClick={switchToPen}>Pen</button>
-		  {/* Pen button */}
+          {/* Pen button */}
           <button onClick={toggleEraser}>Eraser</button> {/* Eraser button */}
-          <button onClick={togglePaintBucket}>Paint Bucket</button>{' '}
+          <button onClick={togglePaintBucket}>Paint Bucket</button>{" "}
           {/* Paint Bucket button */}
-          <button onClick={saveDrawing}>Save as JPEG</button>{' '}
+          <button onClick={saveDrawing}>Save as JPEG</button>{" "}
           {/* Save button */}
           <button id="post-btn" onClick={postDrawing}>
             Post
-          </button>{' '}
+          </button>{" "}
           {/* Post button */}
           <button
             onClick={clearDrawing}
-            style={{ backgroundColor: clearConfirmation ? 'red' : 'initial' }}
+            style={{ backgroundColor: clearConfirmation ? "red" : "initial" }}
           >
-            {clearConfirmation ? 'Confirm?' : 'Clear Canvas'}
-          </button>{' '}
+            {clearConfirmation ? "Confirm?" : "Clear Canvas"}
+          </button>{" "}
         </div>
       </section>
       <PostContainer postList={postList} />
