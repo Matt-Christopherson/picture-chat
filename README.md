@@ -7,11 +7,45 @@ I WANT to share and react to others' doodles
 SO THAT I can connect with others online in a unique and fun way
 ## Usage
 Use the canvas to whip up a simple doodle in minutes. Be sure to have fun and don't worry about making the perfect drawing. When you're done, click the post button to add your drawing to the timeline!
+## Technologies
+- node to run packages and files
+- npm i to install dependancies
+- render for deployment
+- mongo for database managment
+- react for front end view
+- Dependancies
+    - Server Side
+        - @apollo/server
+        - apollo-server-express
+        - bcrypt
+        - express
+        - graphql
+        - mongoose
+        - jsonwebtoken
+    - Client Side
+        - @apollo/client
+        - bootstrap
+        - jwt-decode
+        - graphql
+        - react
+        - react-dom
+        - react-router-dom
+        - roughjs
+
 ## Screenshots
+![image of the landing page of the site](./assets/screenshot.PNG)
 
 ## Credits
-Created by Alex Ryder, Connor Spendlove, Matthew Christopherson, Parker Rappleye, Tyler Sanford, and Zeno Gallegos.
+Created by 
+- Alex Ryder
+- Connor Spendlove
+- Matthew Christopherson
+- Parker Rappleye
+- Tyler Sanford
+- Zeno Gallegos
+
 ## Links
+- [Live deployment]()
 - [Project repository](https://github.com/Matt-Christopherson/picture-chat)
 - [Alex Ryder GitHub](https://github.com/Zorzorac05)
 - [Connor Spendlove GitHub](https://github.com/ConnorSpendlove)
