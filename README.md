@@ -33,7 +33,7 @@ Use the canvas to whip up a simple doodle in minutes. Be sure to have fun and do
         - roughjs
 
 ## Screenshots
-![image of the landing page of the site](./assets/updatedscreen.PNG)
+![image of the landing page of the site](./assets/updatedscreen.png)
 
 ## Credits
 Created by 
