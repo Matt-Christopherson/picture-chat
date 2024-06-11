@@ -3,7 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { ApolloServer } from "apollo-server-express";
 import path from 'path';
-import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { authMiddleware } from './utils/auth.js';
 import { typeDefs, resolvers } from './schemas/index.js';
 import connection from './config/connection.js';
@@ -19,6 +19,10 @@ const server = new ApolloServer({
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === "production") {
