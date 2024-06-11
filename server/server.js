@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { ApolloServer } from "apollo-server-express";
 import path from 'path';
+import {fs} from 'fs';
 import { authMiddleware } from './utils/auth.js';
 import { typeDefs, resolvers } from './schemas/index.js';
 import connection from './config/connection.js';
