@@ -33,7 +33,7 @@ Use the canvas to whip up a simple doodle in minutes. Be sure to have fun and do
         - roughjs
 
 ## Screenshots
-![image of the landing page of the site](./assets/screenshot.PNG)
+![image of the landing page of the site](./assets/updatedscreen.PNG)
 
 ## Credits
 Created by 
@@ -45,7 +45,7 @@ Created by
 - Zeno Gallegos
 
 ## Links
-- [Live deployment]()
+- [Live deployment](https://picture-chat.onrender.com/#login)
 - [Project repository](https://github.com/Matt-Christopherson/picture-chat)
 - [Alex Ryder GitHub](https://github.com/Zorzorac05)
 - [Connor Spendlove GitHub](https://github.com/ConnorSpendlove)
